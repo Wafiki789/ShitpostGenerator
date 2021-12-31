@@ -14,7 +14,7 @@
 
         	<button onclick="copyToClipboard()">Copy shitpost</button>
         	<button onclick="downloadAsPng(document.querySelector('#shitpost'))">Download shitpost</button>
-        	<button onclick="copyAsPng(document.querySelector('#shitpost'))">Copy as image</button>
+        	<button id="copyAsImage" onclick="copyAsPng(document.querySelector('#shitpost'))">Copy as image</button>
 
 		</div>
 
@@ -54,6 +54,12 @@
         var shitpostStackOrQueue = "";
 
         document.querySelector("#generateShitpostBtn").onclick = generateShitpost;
+
+        try{
+            ClipboardItem;
+        }catch{
+            document.querySelector("#copyAsImage").remove();
+        }
 
         generateShitpost();
         function generateShitpost(){
