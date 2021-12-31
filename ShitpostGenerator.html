@@ -14,6 +14,7 @@
 
         	<button onclick="copyToClipboard()">Copy shitpost</button>
         	<button onclick="downloadAsPng(document.querySelector('#shitpost'))">Download shitpost</button>
+        	<button onclick="copyAsPng(document.querySelector('#shitpost'))">Copy as image</button>
 
 		</div>
 
@@ -93,6 +94,12 @@
                 aDownloadLink.href = image;
                 // Get the code to click the download link
                 aDownloadLink.click();
+            });
+        }
+        function copyAsPng(node) {
+            html2canvas(node).then(canvas => {
+                // Convert the canvas to data
+                canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({'image/png': blob})]))
             });
         }
 	</script>
