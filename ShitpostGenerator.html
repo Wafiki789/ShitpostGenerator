@@ -10,13 +10,21 @@
 			<a id = "leTweet" class="twitter-share-button" target = "_blank">
 				Tweet
 			</a>
+			<input type="text" value="Hello World" id="toCopy">
+
+        	<button onclick="copyToClipboard()">Copy shitpost</button>
+        	<button onclick="downloadAsPng(document.querySelector('#shitpost'))">Download shitpost</button>
+
 		</div>
 
 	</body>
-	
+
+	<script src="html2canvas.js"></script>
 	<script>
 		//Big todo:
 		/*
+		-Changing screenshot name
+
 		-Formattage pour mobile
 		-Corriger la grammaire, plural et is a bit of
 		-Consideration: plusieurs emojis?
@@ -56,10 +64,36 @@
 
         	document.querySelector("#shitpost").innerHTML = currentShitpost;
         	document.querySelector("#leTweet").href = "https://twitter.com/intent/tweet?text=" + currentShitpost;
+
+			document.getElementById("toCopy").value = currentShitpost;
+
         }
 
         function pickARandomElement(arrayToPickFrom){
         	return arrayToPickFrom[Math.floor(Math.random() * arrayToPickFrom.length)];
+        }
+
+        function copyToClipboard() {
+            var copyText = document.getElementById("toCopy");
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+            
+            navigator.clipboard.writeText(copyText.value);
+        }
+        function downloadAsPng(node) {
+            html2canvas(node).then(canvas => {
+                // Convert the canvas to data
+                var image = canvas.toDataURL();
+                // Create a link
+                var aDownloadLink = document.createElement('a');
+                // Add the name of the file to the link
+                aDownloadLink.download = 'shitpost.png';
+                // Attach the data to the link
+                aDownloadLink.href = image;
+                // Get the code to click the download link
+                aDownloadLink.click();
+            });
         }
 	</script>
 
@@ -90,5 +124,8 @@
     		display: inline-block;
     		color: blue;
 		}
+		#toCopy{
+            display: none;
+        }
 	</style>
 </html>
