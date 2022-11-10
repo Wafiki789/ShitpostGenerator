@@ -1,0 +1,182 @@
+<html>
+	<body>
+		<div id = "container">
+			<div id = "shitpost"></div>
+			
+			<button id = "generateShitpostBtn">
+				Generate new shitpost
+			</button>
+			<br>
+			<input type="text" value="Hello World" id="toCopy">
+
+			<div id="buttons">
+				<a id = "leTweet" class="button" target = "_blank">Tweet</a>
+	        	<button class="right button" onclick="copyToClipboard()">Copy to clipboard</button>
+	        	<br>
+	        	<button class="button" id="copyAsImage" onclick="copyAsPng(document.querySelector('#shitpost'))">Copy as image</button>
+	        	<button class="right button" onclick="downloadAsPng(document.querySelector('#shitpost'))">Download shitpost</button>
+	        </div>
+		</div>
+
+	</body>
+
+	<script src="html2canvas.js"></script>
+	<script>
+		//Big todo:
+		/*
+		-Random couleur de peau et gender (in progress)
+		*/
+
+		//101
+		var subjects = ["Booty calls", "Lesbians", "Bottoms", "True crimes podcasts", "Your feelings", "The Beatles", "You", "Dogs", "Threesomes", "Taxes", "NFTs", "Bimbos", "Drag queens", "Memes", "Video games", "Britney Spears", "Monogamy", "Pikachu", "Canada", "Twitter", "Therapy", "Love", "Education", "Sex", "Capitalism", "Communism",  "Patriarchy", "PowerPoint", "Jesus", "Making games", "Flirting", "Freedom", "Getting tattooed", "Kissing", "Living", "Gender", "Falling in love", "Everything", "Nothing", "Trying your best", "Working full-time", "Having kids", "Going outside","Failure", "Success", "Making friends", "Murder", "Astrology", "Doing the right thing", "Improving yourself","Being attractive", "Veganism", "Shitposting", "Self-care", "Your mom", "Breaking the law", "Being alone",  "Rent", "Pumpkin spice latte", "Consent",  "Being an adult", "Harry Potter", "Star Wars", "Exercising", "Nintendo", "Universal healthcare", "Knowing your rights", "Admitting your mistakes", "Knowing your limits", "Drinking", "Stepping out of your comfort zone", "Elon Musk", "Spider-Man", "Getting called out", "Attending a family gathering", "Garfield", "Gossiping", "Climate change", "Pineapple on pizza", "Productivity", "Being true to yourself",  "Opening up",  "Solidarity", "Feminism", "Happiness",  "Manifesting",  "Following your dreams", "Listening to your instincts", "Marvel", "Disney",  "Science", "Good people", "Polyamory",  "Drinking coffee", "Hoarding money",  "Believing in yourself", "Burning out", "Getting a tongue-split", "Making out", "Karaoke", "Imposter syndrome", "Being cute", "The government"];
+
+		//10
+        var verbs = ["is a bit", "is", "is", "is not", "is not", "can be", "can't be", "should be","shouldn't be","is always", "is never",  "is pretty much"];
+
+        //104
+        var complements = ["weird", "real", "canceled", "illegal", "fun", "surreal", "complicated" ,"a spectrum", "limitless", "the endgame", "mandatory", "normalized", "valid", "vegan", "a struggle" ,"magical", "sexy", "a red flag", "a hoax", "acceptable", "healthy", "a relief", "a social construct", "easy", "obsolete", "beautiful", "gay", "a mood", "overrated", "underrated", "legit", "a thing", "on the table", "allowed", "kinky", "fundamental", "a commitment", "addictive", "woke", "awful", "romantic", "random", "a blessing", "right", "wrong", "better than expected", "the worst", "interesting", "political", "a lifestyle", "a good habit", "a bad habit", "a coping mechanism", "my favorite thing", "a statement", "shitty", "dull", "ethical", "harmless", "offensive", "enough", "natural", "misunderstood", "tolerated", "meh", "an issue", "frowned upon", "trendy", "therapy", "free", "flawless", "a right", "a duty", "a privilege", "taught in school", "for everyone", "nationalized", "ironic", "sustainable", "compensated", "all you do", "a threat", "platonic", "edgy", "trash", "celebrated", "painful", "revolutionary", "transgressive", "important", "scary", "yummy", "toxic", "goals", "acknowledged", "fatal", "hereditary", "radical", "an act of resistance", "horny", "so 2004", "clever", "mainstream", "epic", "taboo", "problematic", "a waste of time", "cute", "a mistake", "relatable", "lit", "a mean to an end"];
+
+        //Anatomical heart? Le monkey qui se cache les yeux
+        //45
+        var emojis = [["🤦🏻‍♀","🤦🏽‍♀", "🤦🏿‍♀", "🤦🏾‍♀", "🤦🏼‍♀", "🤦‍♀", "🤦🏻‍♂", "🤦🏽‍♂","🤦🏿‍♂", "🤦🏾‍♂", "🤦🏼‍♂", "🤦‍♂"],["🤷🏻‍♀","🤷🏽‍♀", "🤷🏿‍♀", "🤷🏾‍♀", "🤷🏼‍♀", "🤷‍♀", "🤷🏻‍♂","🤷🏽‍♂", "🤷🏿‍♂", "🤷🏾‍♂", "🤷🏼‍♂", "🤷‍♂"],["🙌🏻","🙌", "🙌🏽", "🙌🏿", "🙌🏾", "🙌🏼"],["👌🏻","👌", "👌🏽", "👌🏿", "👌🏾", "👌🏼"],["🍆"], ["✨"], ["🔥"], ["😅"], ["🌈"], ["🤖"], ["💖"], ["😬"], ["🤔"], ["😈"], ["😍"], ["👀"], ["💦"], ["💯"], ["😐"], ["💩"], ["😤"], ["🙄"], ["😳"], ["😱"], ["😏"], ["😭"], ["😟"], ["🚩"], ["🤯"], ["🤫"] ,["🤨"], ["😠"], ["🙏🏻","🙏", "🙏🏽", "🙏🏿", "🙏🏾", "🙏🏼"], ["🥺"], ["🥴"], ["💅🏻","💅", "💅🏽", "💅🏿", "💅🏾", "💅🏼"], ["🍑"], ["🥰"], ["🤘🏻","🤘", "🤘🏽", "🤘🏿", "🤘🏾", "🤘🏼"], ["😩"], ["😒"], ["💀"], ["🙈"], ["😘"], ["😎"], ["🥵"], ["💔"]];
+
+        document.querySelector("#generateShitpostBtn").onclick = generateShitpost;
+
+        var imageName = "";
+
+        try{
+            ClipboardItem;
+        }catch{
+            document.querySelector("#copyAsImage").remove();
+        }
+
+        generateShitpost();
+
+        function generateShitpost(){
+        	//console.log(emojis.length);
+
+        	var randomIndexSubjects = pickARandomElement(subjects);
+        	var randomIndexVerbs = pickARandomElement(verbs);
+        	var randomIndexComplements = pickARandomElement(complements);
+        	var randomIndexEmojis = pickARandomElement(emojis);
+
+        	var isPlural = randomIndexSubjects < 15;
+        	var emojiList = emojis[randomIndexEmojis];
+
+        	var currentShitpost = subjects[randomIndexSubjects] + " " + verbs[randomIndexVerbs] + " " + complements[randomIndexComplements];
+        	if(Math.floor(Math.random()* 10) < 1)
+        	{
+        		var addIts = + isPlural?"":"it's ";
+        		currentShitpost += " yet " + addIts + complements[pickARandomElement(complements)];
+        	}
+        	currentShitpost += " " + emojiList[pickARandomElement(emojiList)];
+
+        	imageName = subjects[randomIndexSubjects];
+
+        	if(isPlural && currentShitpost.includes(" is "))
+        	{
+        		currentShitpost = currentShitpost.replace(" is ", " are ");
+        	}
+
+        	if(currentShitpost.includes("a bit") && complements[randomIndexComplements].includes("a "))
+        	{
+        		currentShitpost = currentShitpost.replace("a bit", "a bit of");
+        	}
+
+        	//Add funky variations
+
+        	if(Math.floor(Math.random()* 10) < 1)
+        	{
+        		var addEmoji = emojis[pickARandomElement(emojis)]
+        		currentShitpost += addEmoji[pickARandomElement(addEmoji)];
+        	}
+
+        	document.querySelector("#shitpost").innerHTML = currentShitpost;
+        	document.querySelector("#leTweet").href = "https://twitter.com/intent/tweet?text=" + currentShitpost;
+
+			document.getElementById("toCopy").value = currentShitpost;
+
+        }
+
+        function pickARandomElement(arrayToPickFrom){
+        	return Math.floor(Math.random() * arrayToPickFrom.length);
+        }
+
+        function copyToClipboard() {
+            var copyText = document.getElementById("toCopy");
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+            
+            navigator.clipboard.writeText(copyText.value);
+        }
+        function downloadAsPng(node) {
+            html2canvas(node).then(canvas => {
+                // Convert the canvas to data
+                var image = canvas.toDataURL();
+                // Create a link
+                var aDownloadLink = document.createElement('a');
+                // Add the name of the file to the link
+                aDownloadLink.download = imageName + ".png";
+                // Attach the data to the link
+                aDownloadLink.href = image;
+                // Get the code to click the download link
+                aDownloadLink.click();
+            });
+        }
+        function copyAsPng(node) {
+            html2canvas(node).then(canvas => {
+                // Convert the canvas to data
+                canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({'image/png': blob})]))
+            });
+        }
+	</script>
+
+	<style>
+		div#container {
+    		text-align: center;
+		}
+
+		div#shitpost {
+    		font-size: 100px;
+    		min-height: 250px;
+    	}
+
+    	button#generateShitpostBtn {
+ 			font-size: 60px;
+ 			margin-top: 50px;
+    		padding: 10px;
+    		display: inline-block;
+    		font-weight: bold;
+		}
+
+		#buttons{
+			text-align: left;
+			display: inline-block;
+			min-width: 700px;
+			margin-left: 32px;
+		}
+
+		.right{
+			float: right;
+			margin-right: 32px;
+		}
+
+		a#leTweet{
+    		color: blue;
+		}
+
+		.button {
+			margin-top: 35px;
+    		font-size: 40px;
+    		background-color: #efefef;
+    		border: 1px solid rgb(118 118 118);
+    		padding: 10px;
+    		text-decoration: none;
+    		display: inline-block;
+		}
+		#toCopy{
+            display: none;
+        }
+	</style>
+</html>
